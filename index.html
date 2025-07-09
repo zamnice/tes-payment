@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --header-bg: #2196F3;
+            --footer-bg: #1976D2;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --hover-effect: translateY(-5px);
+            --primary-color: #2196F3;
+            --primary-dark: #1976D2;
+            --primary-light: #BBDEFB;
+        }
+
+        .dark-mode {
+            --bg-color: #121212;
+            --text-color: #f5f5f5;
+            --card-bg: #1e1e1e;
+            --header-bg: #0D47A1;
+            --footer-bg: #0D47A1;
+            --shadow: 0 2px 10px rgba(0,0,0,0.3);
+            --hover-effect: translateY(-5px) scale(1.02);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: var(--hover-effect);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .payment-methods {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .payment-methods h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: rgba(33, 150, 243, 0.1);
+            border-radius: 5px;
+        }
+        
+        .payment-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        
+        .payment-name {
+            font-weight: bold;
+        }
+        
+        .payment-number {
+            font-family: monospace;
+        }
+        
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .qris-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .qris-image {
+            max-width: 200px;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background-color: var(--footer-bg);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .theme-toggle {
+                position: static;
+                transform: none;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Welcome to My Store</h1>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="welcome-section">
+            <h2>Selamat Datang di Toko Kami</h2>
+            <p>Temukan produk berkualitas dengan harga terbaik. Silahkan klik produk yang Anda minati untuk memesan via WhatsApp.</p>
+        </section>
+        
+        <section class="products">
+            <!-- Product 1 -->
+            <div class="product-card" onclick="redirectToWhatsApp('Product 1', 150000)">
+                <img src="https://via.placeholder.com/300x200?text=Product+1" alt="Product 1" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Product 1</h3>
+                    <p class="product-price">Rp 150.000</p>
+                    <p>Deskripsi singkat produk 1</p>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card" onclick="redirectToWhatsApp('Product 2', 200000)">
+                <img src="https://via.placeholder.com/300x200?text=Product+2" alt="Product 2" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Product 2</h3>
+                    <p class="product-price">Rp 200.000</p>
+                    <p>Deskripsi singkat produk 2</p>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card" onclick="redirectToWhatsApp('Product 3', 250000)">
+                <img src="https://via.placeholder.com/300x200?text=Product+3" alt="Product 3" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Product 3</h3>
+                    <p class="product-price">Rp 250.000</p>
+                    <p>Deskripsi singkat produk 3</p>
+                </div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-card" onclick="redirectToWhatsApp('Product 4', 300000)">
+                <img src="https://via.placeholder.com/300x200?text=Product+4" alt="Product 4" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Product 4</h3>
+                    <p class="product-price">Rp 300.000</p>
+                    <p>Deskripsi singkat produk 4</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="payment-methods">
+            <h2>Metode Pembayaran</h2>
+            
+            <div class="payment-options">
+                <!-- Dana -->
+                <div class="payment-method">
+                    <div class="payment-info">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_DANA.svg" alt="DANA" class="payment-icon">
+                        <div>
+                            <div class="payment-name">DANA</div>
+                            <div class="payment-number" id="danaNumber">087848005004</div>
+                        </div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('danaNumber')">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                </div>
+                
+                <!-- GoPay -->
+                <div class="payment-method">
+                    <div class="payment-info">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay" class="payment-icon">
+                        <div>
+                            <div class="payment-name">GoPay</div>
+                            <div class="payment-number" id="gopayNumber">087848005004</div>
+                        </div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('gopayNumber')">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                </div>
+                
+                <!-- OVO -->
+                <div class="payment-method">
+                    <div class="payment-info">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo.svg" alt="OVO" class="payment-icon">
+                        <div>
+                            <div class="payment-name">ShoopePay</div>
+                            <div class="payment-number" id="spayNumber">087848005004</div>
+                        </div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('ovoNumber')">
+                        <i class="far fa-copy"></i> Salin
+                    </button>
+                </div>
+            </div>
+            
+            <!-- QRIS -->
+            <div class="qris-section">
+                <h3>QRIS</h3>
+                <img src="URL qris" alt="QRIS" class="qris-image">
+                <p>Scan QR code di atas untuk pembayaran</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 My Store. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // WhatsApp redirection
+        function redirectToWhatsApp(productName, productPrice) {
+            // Replace this phone number with your WhatsApp number
+            const phoneNumber = "6281234567890";
+            
+            // Format the price with thousand separators
+            const formattedPrice = new Intl.NumberFormat('id-ID').format(productPrice);
+            
+            // Create the WhatsApp message
+            const message = `Halo, saya ingin memesan:\n\nProduk: ${productName}\nHarga: Rp ${formattedPrice}\n\nApakah produk ini tersedia?`;
+            
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Create the WhatsApp URL
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            // Open the URL in a new tab
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Change button text temporarily
+                const buttons = document.querySelectorAll('.copy-btn');
+                buttons.forEach(btn => {
+                    if (btn.getAttribute('onclick').includes(elementId)) {
+                        const originalText = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                        btn.style.backgroundColor = '#0D47A1';
+                        
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.style.backgroundColor = '#2196F3';
+                        }, 2000);
+                    }
+                });
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
